@@ -4,7 +4,7 @@ from . import admin
 from werkzeug.security import generate_password_hash
 from BookingSystem import db, bcrypt
 from BookingSystem.Admin_Page.forms import UserTourOperatorForm
-from BookingSystem.models import UserTraveler, UserTourOperator
+from BookingSystem.models import User, TourOperator
 
 # Create Tour Operator
 @admin.route('/create_operator', methods=['GET', 'POST'])
@@ -16,14 +16,17 @@ def create_operator():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         
         # Create a new UserTourOperator instance
-        new_operator = UserTourOperator(
+        new_operator = User(
             email=form.email.data,
             password=hashed_password,
             role='touroperator',  # Set role as tour operator
-            confirmed=True,
+            # confirmed=True,
         )
 
         try:
+            db.session.add(new_operator)
+            db.session.commit()
+            new_operator = TourOperator(user_id=new_operator.id)
             db.session.add(new_operator)
             db.session.commit()
             flash('Tour Operator account created successfully!', 'success')

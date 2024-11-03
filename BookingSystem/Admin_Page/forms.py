@@ -3,7 +3,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
-from BookingSystem.models import UserTraveler  # Assuming UserTraveler is the model for your users
+from BookingSystem.models import User, TourOperator  # Assuming UserTraveler is the model for your users
 
 class UserTourOperatorForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -12,6 +12,6 @@ class UserTourOperatorForm(FlaskForm):
     submit = SubmitField('Create Account')
     
     def validate_email(self, email):
-        traveler = UserTraveler.query.filter_by(email=email.data).first()
+        traveler = User.query.filter_by(email=email.data).first()
         if traveler:
             raise ValidationError('That email is already in use. Please choose a different one.')
