@@ -1,9 +1,10 @@
 from BookingSystem import create_app, db, bcrypt
-from BookingSystem.models import UserTourGuide  # Import the admin model
+from BookingSystem.models import User
+from BookingSystem import create_admin # Import the admin model
 
 def create_tourguide():
     hashed_password = bcrypt.generate_password_hash('tourguide').decode('utf-8')
-    tourguide = UserTourGuide(
+    tourguide = User(
         email='tourguide1@example.com',
         contact_number='099999999',
         password=hashed_password,

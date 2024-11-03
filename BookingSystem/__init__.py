@@ -1,30 +1,25 @@
-
 import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_bcrypt import Bcrypt 
-from flask_login  import LoginManager
+from flask_bcrypt import Bcrypt
+from flask_login import LoginManager
 from flask_mail import Mail
 from datetime import timedelta
-
+from flask_migrate import Migrate
 #from BookingSystem.Admin_Page import admin UserMixin, login_required, login_user, logout_user,   current_user
-
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 mail = Mail()
-
-
+migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = '2770d4fd598f5a792ebce414a891f412'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Kevs@localhost:5432/postgres'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:12345@localhost:5433/postgres'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.config['TEMPLATES_AUTO_RELOAD'] = True
-    
-    
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'  # Use your email provider's SMTP server
     app.config['MAIL_PORT'] = 587
     app.config['MAIL_USE_TLS'] = True
@@ -44,14 +39,11 @@ def create_app():
 
 
 
-
-    
-
     db.init_app(app)
     bcrypt.init_app(app)
-    
     mail.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app, db)
     
     login_manager.login_view = 'main.traveler_login'  # Change 'main.traveler_login' to your login route
     login_manager.login_message_category = 'info'  # Flash message category for unauthorized users

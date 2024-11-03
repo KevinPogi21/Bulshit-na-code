@@ -5,6 +5,7 @@ from . import tourguide
 from BookingSystem.TourOperator_Page.form import UserTourGuideForm
 from BookingSystem import bcrypt, db
 from werkzeug.security import check_password_hash, generate_password_hash
+from BookingSystem.models import User, Characteristic, Skill, Availability
 import os
 
 

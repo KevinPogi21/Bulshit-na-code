@@ -3,7 +3,8 @@ from flask_wtf.file import FileField, FileAllowed
 from flask_login import current_user
 from wtforms import StringField, PasswordField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from BookingSystem.models import UserTraveler, UserTourOperator, UserTourGuide
+# from BookingSystem.models import UserTraveler, UserTourOperator, UserTourGuide
+from BookingSystem.models import User
 from wtforms import ValidationError
 from BookingSystem import db
 
@@ -47,7 +48,7 @@ class TravelerRegistrationForm(FlaskForm):
                                             
                                                          
     def validate_email_address(self, email_address):
-        traveler = UserTraveler.query.filter_by(email = email_address.data).first()
+        traveler = User.query.filter_by(email = email_address.data).first()
         if traveler:
             raise ValidationError('That Email is taken. Please Choose a different one.')
 
@@ -64,7 +65,7 @@ class TravelerRequestResetForm(FlaskForm):
     submit = SubmitField('Request Password Reset')
     
     def validate_email(self, email):
-        traveler = UserTraveler.query.filter_by(email = email.data).first()
+        traveler = User.query.filter_by(email = email.data).first()
         if traveler is None:
             raise ValidationError('There is no account with email. You must register first.')
         
@@ -87,7 +88,7 @@ class UpdateAccountForm(FlaskForm):
     
     def validate_username(self, username):
         if username.data != current_user.username:
-            traveler = UserTraveler.query.filter_by(username = username.data).first()
+            traveler = User.query.filter_by(username = username.data).first()
             if traveler:
                 raise ValidationError('That username is taken. Please Choose a different one.')
         

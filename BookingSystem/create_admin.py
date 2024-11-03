@@ -1,13 +1,13 @@
 from BookingSystem import create_app, db, bcrypt
-from BookingSystem.models import UserAdmin  # Import the admin model
+from BookingSystem.models import User  # Import the admin model
 
 def create_admin():
     hashed_password = bcrypt.generate_password_hash('kevs').decode('utf-8')
-    admin = UserAdmin(
-        email='admin3@example.com',
+    admin = User(
+        email='admin1@example.com',
         password=hashed_password,
         role='admin',
-        confirmed=True  # Ensure 'confirmed' is an attribute in your UserAdmin model
+        # confirmed=True  # Ensure 'confirmed' is an attribute in your UserAdmin model
     )
     
     try:
